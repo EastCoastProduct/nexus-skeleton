@@ -1,0 +1,6 @@
+---
+  db_host: localhost
+  db_name: dev_db
+  api_user_password: ecp1950
+  test_db_name: test_db
+  test_api_user_password: password123

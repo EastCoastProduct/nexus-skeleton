@@ -1,0 +1,24 @@
+---
+
+  - hosts: common-server
+    sudo: yes
+    roles:
+      - role: common
+      - role: supervisor
+      - role: nodejs
+
+  - hosts: db-servers
+    sudo: yes
+    roles:
+      - db
+      - db-create
+
+  - hosts: api
+    sudo: yes
+    roles:
+      - role: api
+
+  - hosts: web
+    sudo: yes
+    roles:
+      - role: web

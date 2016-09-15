@@ -1,0 +1,12 @@
+---
+  - name: run webpack
+    command: webpack
+    args:
+      chdir: '{{ app_home }}'
+    become: yes
+    become_user: '{{ app_and_user_name }}'
+
+  - name: restart web supervisor task
+    supervisorctl: >
+      name='{{ app_and_user_name }}'
+      state=restarted

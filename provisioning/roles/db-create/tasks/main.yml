@@ -1,0 +1,52 @@
+---
+
+  - name: create database
+    postgresql_db:
+      name: '{{ item }}'
+      state: present
+    with_items:
+      - '{{ db_name }}'
+      - '{{ test_db_name }}'
+
+  - postgresql_user:
+      db: '{{ item.db }}'
+      name: api
+      password: '{{ item.password }}'
+      state: present
+    with_items:
+      - { db: '{{ db_name }}', password: '{{ api_user_password }}' }
+      - { db: '{{ test_db_name }}', password: '{{ test_api_user_password }}' }
+
+  - name: give api user permissions to db
+    postgresql_privs: >
+      db='{{ item }}'
+      privs=CREATE,CONNECT
+      type=database
+      role=api
+    with_items:
+      - '{{ db_name }}'
+      - '{{ test_db_name }}'
+
+  - name: give api user permissions to db tables
+    postgresql_privs:
+      db: '{{ item }}'
+      roles: api
+      privs: 'INSERT,UPDATE,SELECT,DELETE'
+      state: present
+      type: table
+      objs: ALL_IN_SCHEMA
+    with_items:
+      - '{{ db_name }}'
+      - '{{ test_db_name }}'
+
+  - name: give api user permissions to db sequences
+    postgresql_privs:
+      db: '{{ item }}'
+      roles: api
+      privs: 'USAGE,SELECT'
+      state: present
+      type: sequence
+      objs: ALL_IN_SCHEMA
+    with_items:
+      - '{{ db_name }}'
+      - '{{ test_db_name }}'

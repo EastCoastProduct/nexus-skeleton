@@ -1,0 +1,26 @@
+---
+
+  - shell: curl --silent --location 'https://deb.nodesource.com/setup_6.x' | sudo bash -
+
+  - name: install nodejs
+    apt: >
+      name=nodejs
+      update_cache=yes
+      force=yes
+
+  - name: install npm global packages
+    npm:
+      name: "{{ item }}"
+      state: present
+      global: yes
+    with_items:
+      - nodemon
+      - debug
+      - gulp
+      - karma-cli
+      - bower
+      - mocha
+      - node-inspector
+      - iron-node
+      - sequelize-cli
+      - webpack

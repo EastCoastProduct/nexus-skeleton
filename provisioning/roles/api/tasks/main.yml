@@ -1,0 +1,12 @@
+# ---
+#   - name: run migrations
+#     command: node_modules/.bin/sequelize db:migrate
+#     args:
+#       chdir: '{{ app_home }}'
+#     become: yes
+#     become_user: '{{ app_and_user_name }}'
+
+#   - name: restart api supervisor task
+#     supervisorctl: >
+#       name='{{ app_and_user_name }}'
+#       state=restarted
